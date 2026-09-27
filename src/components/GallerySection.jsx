@@ -356,7 +356,7 @@ export default function GallerySection() {
       </SectionHeader>
 
       <GalleryGrid>
-        <GalleryCard onClick={() => router.push(`/categories/oWDAeSyxUBNICq1TZtp6`)}>
+        <GalleryCard onClick={() => router.push(`/categories/l274LoSBWs1e5DIR1P4b`)}>
           <img 
             src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=1000" 
             alt="New Security Arrivals" 
@@ -367,7 +367,7 @@ export default function GallerySection() {
           </div>
         </GalleryCard>
 
-        <GalleryCard onClick={() => router.push(`/categories/HXEy3XhgQJgtJ1fJUgxP`)}>
+        <GalleryCard onClick={() => router.push(`/categories/r0EcdsyXrHGuBYyfSRIR`)}>
           <img 
             src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=1000" 
             alt="Best Sellers" 
