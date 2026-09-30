@@ -1379,7 +1379,7 @@ const HostingList = () => {
   const [user, setUser] = useState(null);
 
   // Replace with your actual client repository URL
-  const githubRepoUrl = "https://github.com/Victherich/Enitz-Global";
+  const githubRepoUrl = "https://github.com/Victherich/majinfotek";
 
   useEffect(() => {
     const auth = getAuth();
@@ -1408,7 +1408,7 @@ const HostingList = () => {
       });
 
       try {
-        const qs = await getDocs(collection(db, 'hostings'));
+        const qs = await getDocs(collection(db, 'Hostings'));
         setHostings(qs.docs.map(d => ({ id: d.id, ...d.data() })));
       } catch {
         Swal.fire({ title: 'Error', text: 'Could not sync cluster nodes.', icon: 'error', background: '#ffffff', color: '#0f172a' });
