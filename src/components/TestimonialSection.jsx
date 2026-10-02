@@ -366,6 +366,7 @@ import styled, { keyframes } from "styled-components";
 import { Star, Quote, CheckCircle2, Heart, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import ProofAndTestimonials from "./ProofAndTestimonials";
+import AuthorizedDistributor from "./AuthorizedDistributor";
 
 /* ================= THEME STYLES (MAJINFOTEK) ================= */
 const primaryBlue = "#1c3ba4";
@@ -696,7 +697,7 @@ export default function TestimonialsSection() {
           </TestimonialGrid>
 
           <ProofAndTestimonials />
-
+<AuthorizedDistributor /> 
           <HeritageBanner>
             <div className="banner-content">
               <div className="badge-pill" style={{ margin: '0 auto 1.5rem auto', display: 'inline-flex' }}>
