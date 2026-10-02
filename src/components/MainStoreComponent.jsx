@@ -1149,8 +1149,8 @@ export default function MainStoreComponent() {
         {/* Search Bar Component */}
         <SearchBar />
       {/* </div> */}
-      <FeaturedProducts/>
-<ShopByLocation/>
+      {/* <FeaturedProducts/> */}
+{/* <ShopByLocation/> */}
       <StoreLayout>
 
         <Sidebar>
