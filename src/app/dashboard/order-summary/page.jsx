@@ -1017,6 +1017,10 @@ export default function OrderSummaryPage() {
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { payWithPaystack } = useAppContext();
+// Add state at the top of OrderSummaryPage
+const [subaccountCode, setSubaccountCode] = useState(null);
+
+
 
   // Auth Loader
   useEffect(() => {
@@ -1084,7 +1088,101 @@ export default function OrderSummaryPage() {
 
 
 
-  const handlePayNow = async () => {
+
+// Fetch subaccount on page load
+useEffect(() => {
+  const fetchSubaccount = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "subaccounts"));
+      if (!querySnapshot.empty) {
+        const data = querySnapshot.docs[0].data();
+        if (data.subaccount_code) {
+          setSubaccountCode(data.subaccount_code);
+        }
+      }
+    } catch (error) {
+      console.error("Error pre-fetching subaccount:", error);
+    }
+  };
+  fetchSubaccount();
+}, []);
+
+
+
+//   const handlePayNow = async () => {
+//     if (!deliveryAddress) {
+//       Swal.fire('Missing Address', 'Please select a delivery address before proceeding.', 'warning');
+//       router.push('/dashboard/addressmanager');
+//       return;
+//     }
+
+//     if (cart.length === 0) {
+//       Swal.fire('Empty Cart', 'Your cart is empty.', 'warning');
+//       return;
+//     }
+
+//     try {
+//       // 1. Fetch the global subaccount from Firestore
+//       const querySnapshot = await getDocs(collection(db, "subaccounts"));
+      
+//       if (querySnapshot.empty) {
+//         Swal.fire('Payout Account Missing', 'The seller has not added a payout account yet. Please try again later.', 'warning');
+//         return;
+//       }
+
+//       const subaccountData = querySnapshot.docs[0].data();
+//       const subaccountCode = subaccountData.subaccount_code;
+
+//       if (!subaccountCode) {
+//         Swal.fire('Invalid Payout Setup', 'The seller payout account configuration is invalid.', 'error');
+//         return;
+//       }
+
+//       const uniqueOrderNumber = `ORDER-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 900 + 100)}`;
+
+// // 👉 REPLACE "items: cart" WITH THIS:
+//       const processedItems = getProcessedCartItems();
+
+
+//       const orderPayload = {
+//         orderNumber: uniqueOrderNumber,
+//         userId: currentUser ? currentUser.uid : 'guest',
+//         items: processedItems,
+//         deliveryAddress,
+//         subtotal: cartSubtotal,
+//         deliveryFee,
+//         discount,
+//         finalTotal,
+//         promoCode: appliedPromo,
+//         currency: 'NGN',
+//         accountInfo: {
+//           name: userData?.fullName || currentUser?.displayName || 'Valued Customer',
+//           email: currentUser?.email,
+//           phone: userData?.phone || currentUser?.phoneNumber || 'Not provided'
+//         },
+//         paymentType: 'ONLINE PAYMENT',
+//         paymentStatus: 'Paid',
+//         orderStatus: 'Pending',
+//         createdAt: serverTimestamp()
+//       };
+
+//       localStorage.setItem('pendingOrder', JSON.stringify(orderPayload));
+
+//       // 2. Pass the subaccount code to your Paystack function
+//       payWithPaystack(finalTotal, 'NGN', subaccountCode);
+
+//     } catch (error) {
+//       console.error("Error fetching subaccount:", error);
+//       Swal.fire('Error', 'Could not verify the seller payout account. Please try again.', 'error');
+//     }
+//   };
+
+  // Pay on Delivery Handler with Swal Confirmation & Safeguards
+ 
+//  console.log(currentUser)
+ 
+ 
+ const handlePayNow = async () => {
     if (!deliveryAddress) {
       Swal.fire('Missing Address', 'Please select a delivery address before proceeding.', 'warning');
       router.push('/dashboard/addressmanager');
@@ -1096,63 +1194,55 @@ export default function OrderSummaryPage() {
       return;
     }
 
+    if (!subaccountCode) {
+      Swal.fire('Payout Account Missing', 'The seller payout account is still loading or missing. Please try again.', 'warning');
+      return;
+    }
+
+    const uniqueOrderNumber = `ORDER-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 900 + 100)}`;
+    const processedItems = getProcessedCartItems();
+
+    
+       const email = currentUser?.email;
+          const name = currentUser?.displayName || "";
+
+    const orderPayload = {
+      orderNumber: uniqueOrderNumber,
+      userId: currentUser ? currentUser.uid : 'guest',
+      items: processedItems,
+      deliveryAddress,
+      subtotal: cartSubtotal,
+      deliveryFee,
+      discount,
+      finalTotal,
+      promoCode: appliedPromo,
+      currency: 'NGN',
+      accountInfo: {
+        name: userData?.fullName || currentUser?.displayName || 'Valued Customer',
+        email: currentUser?.email,
+        phone: userData?.phone || currentUser?.phoneNumber || 'Not provided'
+      },
+      paymentType: 'ONLINE PAYMENT',
+      paymentStatus: 'Paid',
+      orderStatus: 'Pending',
+      createdAt: serverTimestamp()
+    };
+
     try {
-      // 1. Fetch the global subaccount from Firestore
-      const querySnapshot = await getDocs(collection(db, "subaccounts"));
-      
-      if (querySnapshot.empty) {
-        Swal.fire('Payout Account Missing', 'The seller has not added a payout account yet. Please try again later.', 'warning');
-        return;
-      }
-
-      const subaccountData = querySnapshot.docs[0].data();
-      const subaccountCode = subaccountData.subaccount_code;
-
-      if (!subaccountCode) {
-        Swal.fire('Invalid Payout Setup', 'The seller payout account configuration is invalid.', 'error');
-        return;
-      }
-
-      const uniqueOrderNumber = `ORDER-${Date.now().toString().slice(-6)}${Math.floor(Math.random() * 900 + 100)}`;
-
-// 👉 REPLACE "items: cart" WITH THIS:
-      const processedItems = getProcessedCartItems();
-
-
-      const orderPayload = {
-        orderNumber: uniqueOrderNumber,
-        userId: currentUser ? currentUser.uid : 'guest',
-        items: processedItems,
-        deliveryAddress,
-        subtotal: cartSubtotal,
-        deliveryFee,
-        discount,
-        finalTotal,
-        promoCode: appliedPromo,
-        currency: 'NGN',
-        accountInfo: {
-          name: userData?.fullName || currentUser?.displayName || 'Valued Customer',
-          email: currentUser?.email,
-          phone: userData?.phone || currentUser?.phoneNumber || 'Not provided'
-        },
-        paymentType: 'ONLINE PAYMENT',
-        paymentStatus: 'Paid',
-        orderStatus: 'Pending',
-        createdAt: serverTimestamp()
-      };
-
       localStorage.setItem('pendingOrder', JSON.stringify(orderPayload));
-
-      // 2. Pass the subaccount code to your Paystack function
-      payWithPaystack(finalTotal, 'NGN', subaccountCode);
+      // Instantly trigger Paystack without waiting for network requests
+      // payWithPaystack(finalTotal, 'NGN', subaccountCode);
+      payWithPaystack(finalTotal, 'NGN', subaccountCode, email, name)
 
     } catch (error) {
-      console.error("Error fetching subaccount:", error);
-      Swal.fire('Error', 'Could not verify the seller payout account. Please try again.', 'error');
+      console.error("Error setting up payment session:", error);
+      Swal.fire('Error', 'Could not initialize payment. Please try again.', 'error');
     }
   };
-
-  // Pay on Delivery Handler with Swal Confirmation & Safeguards
+ 
+ 
+ 
+ 
   const handlePayOnDelivery = async () => {
     if (!deliveryAddress) {
       Swal.fire('Missing Address', 'Please select a delivery address before proceeding.', 'warning');
