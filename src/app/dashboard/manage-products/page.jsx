@@ -1369,15 +1369,15 @@ if (!form.locationIds || form.locationIds.length === 0) {
                     Single Price Option
                   </label>
 
-<label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", cursor: "pointer" }}>
-      <input
+{/* <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", cursor: "pointer" }}> */}
+      {/* <input
         type="radio"
         name="pricingType"
         checked={form.pricingType === "singleqtytiered"}
         onChange={() => setForm({ ...form, pricingType: "singleqtytiered" })}
       />
       Single Qty Tiered (1 Qty & Price)
-    </label>
+    </label> */}
 
                   <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "0.85rem", cursor: "pointer" }}>
                     <input

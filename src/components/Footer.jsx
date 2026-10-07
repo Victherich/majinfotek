@@ -1010,7 +1010,7 @@ export default function Footer() {
               </SocialIconLink>
 
               {/* Twitter / X */}
-              <SocialIconLink 
+              {/* <SocialIconLink 
                 href="https://twitter.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
@@ -1018,6 +1018,18 @@ export default function Footer() {
               >
                 <svg viewBox="0 0 24 24">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </SocialIconLink> */}
+
+              {/* TikTok */}
+              <SocialIconLink 
+                href="https://www.tiktok.com/@majinfotek_ng?_r=1&_t=ZS-9AIphh0Fd0E" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.29 6.29 0 0 0-5.355 6.224 6.292 6.292 0 0 0 10.743 4.437V9.722a8.136 8.136 0 0 0 4.755 1.516V7.794a4.78 4.78 0 0 1-1.008-.108z"/>
                 </svg>
               </SocialIconLink>
             </SocialIconsContainer>
